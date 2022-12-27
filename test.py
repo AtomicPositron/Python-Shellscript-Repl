@@ -1,6 +1,6 @@
 relation = open("relation.txt",  'r')
 
-msg= "my brother name is david"
+msg= "my brother namedavid"
 v1_msg = msg.replace("is", "")
 new_msg = v1_msg.replace(" ", "")
 firstLetterNumber = new_msg.index("me")+2
