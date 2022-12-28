@@ -1,18 +1,29 @@
-relation = open("relation.txt",  'r')
 
-msg= "my brother namedavid"
-v1_msg = msg.replace("is", "")
-new_msg = v1_msg.replace(" ", "")
-firstLetterNumber = new_msg.index("me")+2
-for t in relation:
-    if t in msg and t not in msg :
-        while firstLetterNumber != len(new_msg):
-            print(f"{t}: {new_msg[firstLetterNumber]}")
-            firstLetterNumber += 1
-        break
-    else:
-        print("none \n")
-        while firstLetterNumber != len(new_msg):
-            print(new_msg[firstLetterNumber])
-            firstLetterNumber += 1
-        break
+
+def array_string(letterend, letterstart, text):
+    main_str = ""
+    while letterstart != letterend:
+        main_str += text[letterstart]
+        letterstart += 1
+
+    return main_str
+
+
+def msg_filter(msg, filter1, filter2,):
+    filter_one = msg.replace(filter1, " ")
+    filter_two = filter_one.replace(filter2, "")
+    return filter_two
+
+
+def keyWord_finder(keyword, text, space):
+    return text.index(keyword) + space
+
+
+def talkBack():
+    #msg = pyautogui.prompt("Text", "Talk to me")
+    msg = "my name is michael"
+    filter_text = msg_filter(msg, "is", " ")
+    letterstarter = keyWord_finder("me", filter_text, 2)
+    print(array_string(len(filter_text), letterstarter, filter_text))
+
+talkBack()
