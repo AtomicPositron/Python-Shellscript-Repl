@@ -14,11 +14,17 @@ response = [
     "my name is " + Botname,
     "what is your name ?"
 ]
-memory = {
-    "name": "",
-    "age": 0,
-    "gender": ""
-}
+positive_reponses = [
+    "yes"
+    "okay"
+    "fine"
+    "you too"
+]
+class Person:
+    def __init__(self):
+        self.name = ""
+        self.age = 0
+        self.gender = ""
 
 def array_string(letterend, letterstart, text):
     main_str = ""
@@ -39,13 +45,19 @@ def keyWord_finder(keyword, text, space):
     return text.index(keyword) + space
 
 
+
 def talkBack():
-    msg = pyautogui.prompt("Response", response[response_num-1])
-    if response[len(response)-1].find("name"):
+    msg = pyautogui.prompt(response[response_num-1],"Response")
+    if response[response_num-1].find("name"):
         filter_text = msg_filter(msg, "is", " ")
         letterstarter = keyWord_finder("me", filter_text, 2)
-        memory.name = array_string(len(filter_text), letterstarter, filter_text)
-        response.append("Nice to meet you " + memory.name)
+        Person().name = array_string(len(filter_text), letterstarter, filter_text)
+        print(Person().name)
+        response.append("Nice to meet you " + Person().name)
+
+    for r in positive_reponses:
+        if r in msg:
+            response.append("😊")
 
 
 
