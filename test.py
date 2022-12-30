@@ -1,11 +1,3 @@
-f= [
-    "a",
-    "b",
-    "c"
-]
-v =[
+g = "fame"
 
-]
-
-f.remove("a")
-print(f)
+print(" " not in g)

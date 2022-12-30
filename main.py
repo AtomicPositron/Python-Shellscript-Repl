@@ -34,6 +34,13 @@ class Person:
         self.age = age
         self.gender = gender
 
+def array_filter(removed_array, filtered_array):
+    for r in removed_array:
+        for f in filtered_array:
+            if r == f:
+                removed_array.remove(r)
+            else:
+                pass
 
 def array_string(letterend, letterstart, text):
     main_str = ""
@@ -47,7 +54,10 @@ def array_string(letterend, letterstart, text):
 def msg_filter(msg, filter1, filter2,):
     filter_one = msg.replace(filter1, " ")
     filter_two = filter_one.replace(filter2, "")
-    return filter_two
+    if " " not in  filter_two:
+        return filter_one
+    else:
+        return filter_two
 
 
 def keyWord_finder(keyword, text, space):
@@ -61,7 +71,6 @@ def verification(verification):
     pyautogui.press("Enter")
     response.append("What is your name?")
     inbox_responses.append("What is your name?")
-    print(response)
     msg = pyautogui.prompt(response[len(response)-1], "Response")
     if "name" in response[len(response)-1]:
         if "my name " in msg or "call me " in msg:
@@ -69,6 +78,9 @@ def verification(verification):
             letterstarter = keyWord_finder("me", filter_text, 2)
             user_name = array_string(len(filter_text), letterstarter, filter_text)
             response.append("Nice to meet you " + user_name)
+            time.sleep(3)
+            response.append("How old are you")
+            inbox_responses.append("How old are you")
         else:
             user_name = msg
             response.append("Nice to meet you " + user_name)
@@ -93,29 +105,42 @@ def verification(verification):
     if "male" in response[len(response)-1]:
         if "m" in msg or "f" in msg:
           response.append("Verification process done")
-
+          array_filter(response,inbox_responses)
+          print(response)
           return 1
 
 if verification(verification_bool) == 1:
     verification_bool = 1
 
 def operation():
-    command_keywords= [
-        "open"
-    ]
+    command_keywords=  {
+        "open": {
+            "notepad" : [
+                "type",
+                "write"
+            ]
+        }
+    }
     pyautogui.press("Enter")
     response.append("What can i do for you")
     command = pyautogui.prompt("Assistant","What can i do for You")
     if "open" in command:
-        msg = msg_filter(command, "open", " ")
-        os.system(msg.lower())
+        removal_conjonctions = msg_filter(command, "and", " ")
+        application = msg_filter(removal_conjonctions, "open", " ")
+        if "type" or "write" in command_keywords["open"][application]:
+            type_removal = application.find("ty")
+            application_name = msg_filter(application,array_string(len(application)-1,type_removal,application), " ")
+            os.system(application_name.lower())
+            function_msg = msg_filter(application,application_name," ")
+            message_finder = keyWord_finder("pe",function_msg,2)
+            print(message_finder)
+        else:
+            pass
 
-    
     pyautogui.countdown(5)
 while True:
     pyautogui.press("Enter")
     pyautogui.typewrite(response[response_num], interval=0.15)
-    pyautogui.press("Enter")
     response_num += 1
     print(response_num)
     if response_num > len(response) - 1:
