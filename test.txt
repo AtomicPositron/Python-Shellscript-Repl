@@ -1,0 +1,24 @@
+
+Verification process
+verifcation 0
+
+hi
+
+how are you
+
+my name is boxDroid
+
+What is your name?
+
+Nice to meet you michael
+
+How old are you
+
+okay  14
+
+Male or female
+
+Verification process done
+
+
+What can i do f

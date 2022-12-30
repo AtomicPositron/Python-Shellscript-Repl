@@ -1,18 +1,25 @@
 import pyautogui
-#import time
+import time
+import os
 
+
+
+os.system("notepad")
 f = open('name.txt', 'r')
 screen = pyautogui.size()
 startButton = (10, screen.height - 10)
 response_num = 0
 Botname = "boxDroid"
+verification_bool =0
+user_name = ""
+user_age = 0
+gender = " "
 
 pyautogui.PAUSE = 1.25
 response = [
     "hi",
     "how are you",
-    "my name is " + Botname,
-    "what is your name ?"
+    "my name is " + Botname
 ]
 positive_reponses = [
     "yes"
@@ -21,10 +28,11 @@ positive_reponses = [
     "you too"
 ]
 class Person:
-    def __init__(self):
-        self.name = ""
-        self.age = 0
-        self.gender = ""
+    def __init__(self, name,age, gender):
+        self.name = name
+        self.age = age
+        self.gender = gender
+
 
 def array_string(letterend, letterstart, text):
     main_str = ""
@@ -44,33 +52,64 @@ def msg_filter(msg, filter1, filter2,):
 def keyWord_finder(keyword, text, space):
     return text.index(keyword) + space
 
+def verification(verification):
+    pyautogui.press("Enter")
+    pyautogui.typewrite("Verification process")
+    pyautogui.press("Enter")
+    pyautogui.typewrite(f"verifcation {verification}")
+    pyautogui.press("Enter")
+    response.append("What is your name?")
+    print(response)
+    msg = pyautogui.prompt(response[len(response)-1], "Response")
+    if "name" in response[len(response)-1]:
+        if "my name " in msg or "call me " in msg:
+            filter_text = msg_filter(msg, "is", " ")
+            letterstarter = keyWord_finder("me", filter_text, 2)
+            user_name = array_string(len(filter_text), letterstarter, filter_text)
+            response.append("Nice to meet you " + user_name)
+        else:
+            user_name = msg
+            response.append("Nice to meet you " + user_name)
+            time.sleep(3)
+            response.append("How old are you")
+        msg = pyautogui.prompt(response[len(response)-1], "Response")
 
+    if "old " in response[len(response)-1]:
 
-def talkBack():
-    msg = pyautogui.prompt(response[response_num-1],"Response")
-    if response[response_num-1].find("name"):
-        filter_text = msg_filter(msg, "is", " ")
-        letterstarter = keyWord_finder("me", filter_text, 2)
-        Person().name = array_string(len(filter_text), letterstarter, filter_text)
-        print(Person().name)
-        response.append("Nice to meet you " + Person().name)
+        filter_text = msg_filter(msg, "i", "years")
+        letterstarter = keyWord_finder("am", filter_text, 2)
+        user_age = array_string(len(filter_text), letterstarter, filter_text)
+        response.append(f"okay {user_age}")
+        response.append("Male or female")
+        msg = pyautogui.prompt(response[len(response)-1], "Response")
 
-    for r in positive_reponses:
-        if r in msg:
-            response.append("😊")
+    if "male" in response[len(response)-1]:
+        if "m" in msg or "f" in msg:
+          response.append("Verification process done")
+          return 1
 
+if verification(verification_bool) == 1:
+    verification_bool = 1
 
+def command_operators(msg):
+    pass
 
-#pyautogui.moveTo(startButton)
-#pyautogui.rightClick()
-#pyautogui.typewrite("NotePad")
-#pyautogui.press("Enter")
-#time.sleep(5)
-pyautogui.countdown(5)
+def operation():
+    pyautogui.press("Enter")
+    response.append("What can i do for you")
+    command = pyautogui.prompt("Assistant","What can i do for You")
+    msg = msg_filter(command, "open", " ")
+    
+    pyautogui.countdown(5)
 while True:
+    pyautogui.press("Enter")
     pyautogui.typewrite(response[response_num], interval=0.15)
     pyautogui.press("Enter")
     response_num += 1
     print(response_num)
     if response_num > len(response) - 1:
-        talkBack()
+
+        if verification_bool == 0:
+            verification(verification_bool)
+        else:
+            operation()
