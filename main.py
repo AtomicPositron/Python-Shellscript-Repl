@@ -3,8 +3,6 @@ import time
 import os
 
 
-
-os.system("notepad")
 f = open('name.txt', 'r')
 screen = pyautogui.size()
 startButton = (10, screen.height - 10)
@@ -16,6 +14,9 @@ user_age = 0
 gender = " "
 
 pyautogui.PAUSE = 1.25
+inbox_responses = [
+
+]
 response = [
     "hi",
     "how are you",
@@ -59,11 +60,12 @@ def verification(verification):
     pyautogui.typewrite(f"verifcation {verification}")
     pyautogui.press("Enter")
     response.append("What is your name?")
+    inbox_responses.append("What is your name?")
     print(response)
     msg = pyautogui.prompt(response[len(response)-1], "Response")
     if "name" in response[len(response)-1]:
         if "my name " in msg or "call me " in msg:
-            filter_text = msg_filter(msg, "is", " ")
+            filter_text = msg_filter(msg.lower(), "is", " ")
             letterstarter = keyWord_finder("me", filter_text, 2)
             user_name = array_string(len(filter_text), letterstarter, filter_text)
             response.append("Nice to meet you " + user_name)
@@ -72,33 +74,42 @@ def verification(verification):
             response.append("Nice to meet you " + user_name)
             time.sleep(3)
             response.append("How old are you")
+            inbox_responses.append("How old are you")
         msg = pyautogui.prompt(response[len(response)-1], "Response")
 
     if "old " in response[len(response)-1]:
-
-        filter_text = msg_filter(msg, "i", "years")
-        letterstarter = keyWord_finder("am", filter_text, 2)
-        user_age = array_string(len(filter_text), letterstarter, filter_text)
-        response.append(f"okay {user_age}")
+        if "years" in msg and "old" in msg and "i am" in msg:
+            filter_text = msg_filter(msg.lower(), "i", "years old")
+            letterstarter = keyWord_finder("am", filter_text, 2)
+            user_age = array_string(len(filter_text), letterstarter, filter_text)
+            response.append(f"okay {user_age}")
+        else:
+            user_age = msg
+            response.append(f"okay {user_age}")
         response.append("Male or female")
+        inbox_responses.append("Male or female")
         msg = pyautogui.prompt(response[len(response)-1], "Response")
 
     if "male" in response[len(response)-1]:
         if "m" in msg or "f" in msg:
           response.append("Verification process done")
+
           return 1
 
 if verification(verification_bool) == 1:
     verification_bool = 1
 
-def command_operators(msg):
-    pass
-
 def operation():
+    command_keywords= [
+        "open"
+    ]
     pyautogui.press("Enter")
     response.append("What can i do for you")
     command = pyautogui.prompt("Assistant","What can i do for You")
-    msg = msg_filter(command, "open", " ")
+    if "open" in command:
+        msg = msg_filter(command, "open", " ")
+        os.system(msg.lower())
+
     
     pyautogui.countdown(5)
 while True:
