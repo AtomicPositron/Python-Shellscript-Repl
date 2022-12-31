@@ -8,7 +8,7 @@ screen = pyautogui.size()
 startButton = (10, screen.height - 10)
 response_num = 0
 Botname = "boxDroid"
-verification_bool =0
+verification_bool = 0
 user_name = ""
 user_age = 0
 gender = " "
@@ -19,7 +19,6 @@ inbox_responses = [
 ]
 response = [
     "hi",
-    "how are you",
     "my name is " + Botname
 ]
 positive_reponses = [
@@ -28,11 +27,15 @@ positive_reponses = [
     "fine"
     "you too"
 ]
+
+
 class Person:
     def __init__(self, name,age, gender):
         self.name = name
         self.age = age
         self.gender = gender
+
+
 
 def array_filter(removed_array, filtered_array):
     for r in removed_array:
@@ -41,6 +44,7 @@ def array_filter(removed_array, filtered_array):
                 removed_array.remove(r)
             else:
                 pass
+
 
 def array_string(letterend, letterstart, text):
     main_str = ""
@@ -130,12 +134,16 @@ def operation():
         if "type" or "write" in command_keywords["open"][application]:
             type_removal = application.find("ty")
             application_name = msg_filter(application,array_string(len(application)-1,type_removal,application), " ")
-            os.system(application_name.lower())
+            print(application_name)
+            os.system(application_name.lower() + ".exe")
             function_msg = msg_filter(application,application_name," ")
             message_finder = keyWord_finder("pe",function_msg,2)
-            print(message_finder)
+            print(array_string(len(function_msg),message_finder,function_msg))
         else:
-            pass
+            print(application)
+            os.system(application.lower() + ".exe")
+            command = pyautogui.prompt("Assistant", "What can i do for You")
+
 
     pyautogui.countdown(5)
 while True:
