@@ -1,0 +1,45 @@
+
+Get local info
+
+Weather: What’s the weather today?
+Food: Find pizza restaurants nearby.
+Business hours: Is Walgreens still open?
+Navigation: Navigate home.
+
+Plan your day
+
+Traffic: How’s the traffic to work?
+Reminders: Remind me to do laundry this evening. Remind me to call Mom every Sunday.
+Calendar events: When’s my first meeting today? Add a meeting to my calendar.
+Flights: Is United flight 1463 on time?
+
+Ask Google
+Game updates: Who won the Warriors game?
+Calculations: What’s 20% of 80?
+Dictionary: What does "gregarious" mean?
+Translations: How do I say "Nice to meet you" in French?
+Finance: How’s the S&P 500 doing?
+Unit conversions: How many kilometers in a mile?
+Search: Search for summer vacation ideas.
+Image search: Find pictures of kittens.
+Web answer: How do you remove wine stains from a rug?
+
+Play media
+Music: Play some Jazz music.
+Podcasts: Play the latest episode from This American Life.
+News: Play the news. What’s the latest news from BBC?
+
+Have fun
+Get to know your Assistant: Do you dream? What's your favorite color?
+Games: Let’s play a game. Give me a trivia question.
+Entertainment: Tell me a joke. Tell me something interesting.
+Animal facts: Tell me about giraffes. What’s the animal of the day?
+
+On specific devices
+On your phone or tablet
+On your speaker or Smart Display
+On your TV
+On your watch
+On your Pixel 4 and later
+On your headphones
+In your car

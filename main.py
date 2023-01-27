@@ -2,8 +2,7 @@ import pyautogui
 import time
 import os
 
-
-f = open('name.txt', 'r')
+time.sleep(10)
 screen = pyautogui.size()
 startButton = (10, screen.height - 10)
 response_num = 0
@@ -36,7 +35,6 @@ class Person:
         self.gender = gender
 
 
-
 def array_filter(removed_array, filtered_array):
     for r in removed_array:
         for f in filtered_array:
@@ -65,7 +63,15 @@ def msg_filter(msg, filter1, filter2,):
 
 
 def keyWord_finder(keyword, text, space):
-    return text.index(keyword) + space
+    if keyword is False or text is False:
+        return "nothing"
+    else:
+        return text.index(keyword) + space
+
+
+def subject_finder(keyword):
+    pass
+
 
 def verification(verification):
     pyautogui.press("Enter")
@@ -107,10 +113,10 @@ def verification(verification):
         msg = pyautogui.prompt(response[len(response)-1], "Response")
 
     if "male" in response[len(response)-1]:
-        if "m" in msg or "f" in msg:
+        if "m" in msg.lower() or "f" in msg.lower():
           response.append("Verification process done")
           array_filter(response,inbox_responses)
-          print(response)
+
           return 1
 
 if verification(verification_bool) == 1:
@@ -120,37 +126,41 @@ def operation():
     command_keywords=  {
         "open": {
             "notepad" : [
-                "type",
-                "write"
+                    "type",
+                   "write"
+                
+            ],
+            "chrome":[
+                "search"
             ]
         }
+
     }
     pyautogui.press("Enter")
-    response.append("What can i do for you")
+    response.append("How can i help you")
     command = pyautogui.prompt("Assistant","What can i do for You")
     if "open" in command:
-        removal_conjonctions = msg_filter(command, "and", " ")
-        application = msg_filter(removal_conjonctions, "open", " ")
+        removal_conjunctions = msg_filter(command, "and", " ")
+        application = msg_filter(removal_conjunctions, "open", " ")
         if "type" or "write" in command_keywords["open"][application]:
             type_removal = application.find("ty")
-            application_name = msg_filter(application,array_string(len(application)-1,type_removal,application), " ")
+            application_name_space_filter = msg_filter(application,array_string(len(application),type_removal,application), " ")
+            application_name = msg_filter(application_name_space_filter, " ", " ")
             print(application_name)
-            os.system(application_name.lower() + ".exe")
+            os.system(application_name.lower())
             function_msg = msg_filter(application,application_name," ")
             message_finder = keyWord_finder("pe",function_msg,2)
-            print(array_string(len(function_msg),message_finder,function_msg))
+           
+            pyautogui.typewrite(array_string(len(function_msg),message_finder,function_msg))
         else:
+            
             print(application)
-            os.system(application.lower() + ".exe")
-            command = pyautogui.prompt("Assistant", "What can i do for You")
+            os.system(application.lower())
 
-
-    pyautogui.countdown(5)
 while True:
-    pyautogui.press("Enter")
     pyautogui.typewrite(response[response_num], interval=0.15)
+    pyautogui.press("Enter")
     response_num += 1
-    print(response_num)
     if response_num > len(response) - 1:
 
         if verification_bool == 0:
