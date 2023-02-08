@@ -1,169 +1,146 @@
-import pyautogui
-import time
 import os
+import pyttsx3
+import webbrowser
+import time 
 
-time.sleep(10)
-screen = pyautogui.size()
-startButton = (10, screen.height - 10)
-response_num = 0
-Botname = "boxDroid"
-verification_bool = 0
-user_name = ""
-user_age = 0
-gender = " "
+_main_memory = []
 
-pyautogui.PAUSE = 1.25
-inbox_responses = [
-
+COMMAND_REFRENCE = [
+    "open",
+    "quit",
+    "search",
+    "help"
 ]
-response = [
-    "hi",
-    "my name is " + Botname
-]
-positive_reponses = [
-    "yes"
-    "okay"
-    "fine"
-    "you too"
-]
+def response(text:str, command:str):
+        engine = pyttsx3.init()
+        print(command + " "+ text)
+        engine.say(command +" "+text)
+        engine.runAndWait()
+
+def handle_open(input:str):
+    response(input, "opening")
+    
+    if os.system(input):
+        os.system("microsoft"+input)
+    
+
+def handle_quit():
+    quit()
+
+def handle_search(query:str):
+    response(" ", "alright")
+    webbrowser.open(f"https://www.google.com/search?q={query}")  
+
+def handle_help():
+    print(f"list of commands \n {COMMAND_REFRENCE}")
 
 
-class Person:
-    def __init__(self, name,age, gender):
-        self.name = name
-        self.age = age
-        self.gender = gender
+#def handle_restart(type:str):
+#    os.system(f" cmd /{type.lower()} C:/Users/Mars/AppData/Local/Programs/Python/Python310/python.exe c:/Users/Mars/OneDrive/Documents/Language/Python/ShellProject/main.py")
 
-
-def array_filter(removed_array, filtered_array):
-    for r in removed_array:
-        for f in filtered_array:
-            if r == f:
-                removed_array.remove(r)
-            else:
-                pass
-
-
-def array_string(letterend, letterstart, text):
-    main_str = ""
-    while letterstart != letterend:
-        main_str += text[letterstart]
-        letterstart += 1
-
-    return main_str
-
-
-def msg_filter(msg, filter1, filter2,):
-    filter_one = msg.replace(filter1, " ")
-    filter_two = filter_one.replace(filter2, "")
-    if " " not in  filter_two:
-        return filter_one
+def input_fun(command:str) -> list:
+    global index_one
+    global index_two
+    global _sleeptimer
+    index_one = 0
+    index_two = 0
+    _sleeptimer = 0
+    if "and" in command or "then" in command:
+        if "and" in command and "then" in command:
+            _split_layer_one = command.split("and")
+            _split_layer_two = [substring.split('then') for substring in _split_layer_one]
+            for item in _split_layer_two:
+                index_one += 1
+                for _item_command in item:
+                    index_two += 1
+                    print(len(_item_command)-1+len(item)-1, " length")
+                    if index_two+index_one != len(_item_command)-1+len(item)-1 :
+                        _sleeptimer += 1
+                        print(_sleeptimer)
+                    else:
+                        _sleeptimer = 0
+                    
+                    print(len(item))
+                    print(_item_command)
+                    _command  = _item_command.strip()
+                    argument, *text =  _command.split()
+                    arg = argument
+                    txt = text
+                    command_object = {
+                        "_command_type": arg,
+                        "_command_text":  txt
+                    }
+                                                            
+                    # Timing function
+                                        
+                    
+                    #_main_memory.append(command_object)
+                    #print(_main_memory)
+                    #return arg, txt
+        
     else:
-        return filter_two
-
-
-def keyWord_finder(keyword, text, space):
-    if keyword is False or text is False:
-        return "nothing"
-    else:
-        return text.index(keyword) + space
-
-
-def subject_finder(keyword):
-    pass
-
-
-def verification(verification):
-    pyautogui.press("Enter")
-    pyautogui.typewrite("Verification process")
-    pyautogui.press("Enter")
-    pyautogui.typewrite(f"verifcation {verification}")
-    pyautogui.press("Enter")
-    response.append("What is your name?")
-    inbox_responses.append("What is your name?")
-    msg = pyautogui.prompt(response[len(response)-1], "Response")
-    if "name" in response[len(response)-1]:
-        if "my name " in msg or "call me " in msg:
-            filter_text = msg_filter(msg.lower(), "is", " ")
-            letterstarter = keyWord_finder("me", filter_text, 2)
-            user_name = array_string(len(filter_text), letterstarter, filter_text)
-            response.append("Nice to meet you " + user_name)
-            time.sleep(3)
-            response.append("How old are you")
-            inbox_responses.append("How old are you")
-        else:
-            user_name = msg
-            response.append("Nice to meet you " + user_name)
-            time.sleep(3)
-            response.append("How old are you")
-            inbox_responses.append("How old are you")
-        msg = pyautogui.prompt(response[len(response)-1], "Response")
-
-    if "old " in response[len(response)-1]:
-        if "years" in msg and "old" in msg and "i am" in msg:
-            filter_text = msg_filter(msg.lower(), "i", "years old")
-            letterstarter = keyWord_finder("am", filter_text, 2)
-            user_age = array_string(len(filter_text), letterstarter, filter_text)
-            response.append(f"okay {user_age}")
-        else:
-            user_age = msg
-            response.append(f"okay {user_age}")
-        response.append("Male or female")
-        inbox_responses.append("Male or female")
-        msg = pyautogui.prompt(response[len(response)-1], "Response")
-
-    if "male" in response[len(response)-1]:
-        if "m" in msg.lower() or "f" in msg.lower():
-          response.append("Verification process done")
-          array_filter(response,inbox_responses)
-
-          return 1
-
-if verification(verification_bool) == 1:
-    verification_bool = 1
-
-def operation():
-    command_keywords=  {
-        "open": {
-            "notepad" : [
-                    "type",
-                   "write"
-                
-            ],
-            "chrome":[
-                "search"
-            ]
+        command  =command.strip()
+        argument, *text =  command.split()
+        arg = argument
+        txt = text
+        command_object = {
+            "_command_type": arg,
+            "_command_text":  txt
         }
-
-    }
-    pyautogui.press("Enter")
-    response.append("How can i help you")
-    command = pyautogui.prompt("Assistant","What can i do for You")
-    if "open" in command:
-        removal_conjunctions = msg_filter(command, "and", " ")
-        application = msg_filter(removal_conjunctions, "open", " ")
-        if "type" or "write" in command_keywords["open"][application]:
-            type_removal = application.find("ty")
-            application_name_space_filter = msg_filter(application,array_string(len(application),type_removal,application), " ")
-            application_name = msg_filter(application_name_space_filter, " ", " ")
-            print(application_name)
-            os.system(application_name.lower())
-            function_msg = msg_filter(application,application_name," ")
-            message_finder = keyWord_finder("pe",function_msg,2)
-           
-            pyautogui.typewrite(array_string(len(function_msg),message_finder,function_msg))
+        _main_memory.append(command_object)
+        
+        return arg, txt
+    
+def run_command(list:list):
+    for x in list:
+        if x["_command_type"] in COMMAND_REFRENCE:
+            command = x["_command_type"].lower()
+            text = " ".join(x["_command_text"])
+            match command:
+                case "open":
+                    handle_open(text)   
+                    list.remove(x)  
+                case "quit":
+                    handle_quit()
+                case "search":
+                    handle_search(text)
+                    list.remove(x)
+                #case "restart":
+                #      handle_restart(text)
+                case _:
+                    raise NotImplementedError(f"The command {command} dosen't exist")
         else:
+            command = x["_command_type"]
+            list.remove(x)           
+            print(f"The command {command} dosen't exist")
+        
             
-            print(application)
-            os.system(application.lower())
+    
+def run():
+    while True:
+        try:
+           command  = input("input: ")
+           input_fun(command)
+        except TypeError:
+            print("error")
+        except ValueError:
+            print("empty string")
+        except NotImplementedError:
+            print("command dosen't exist")
+        except KeyboardInterrupt:
+            print("\n quiting program")
+            quit()
+        finally:
+            if len(_main_memory) > 0:
+                time.sleep(_sleeptimer)
+                try:
+                     run_command(_main_memory)     
+                except IndexError:
+                    print("Bye")
+                    quit()
+                finally:
+                   pass
 
-while True:
-    pyautogui.typewrite(response[response_num], interval=0.15)
-    pyautogui.press("Enter")
-    response_num += 1
-    if response_num > len(response) - 1:
 
-        if verification_bool == 0:
-            verification(verification_bool)
-        else:
-            operation()
+if __name__ == "__main__":
+    run()
