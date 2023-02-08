@@ -9,7 +9,8 @@ COMMAND_REFRENCE = [
     "open",
     "quit",
     "search",
-    "help"
+    "help",
+    "memory"
 ]
 def response(text:str, command:str):
         engine = pyttsx3.init()
@@ -72,9 +73,8 @@ def input_fun(command:str) -> list:
                     }
                                                             
                     # Timing function
-                                        
-                    
-                    #_main_memory.append(command_object)
+                    _main_memory.append(command_object)
+                    print(_main_memory)
                     #print(_main_memory)
                     #return arg, txt
         
