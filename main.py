@@ -1,22 +1,23 @@
 import os
-import pyttsx3
+#import pyttsx3
 import webbrowser
 import time 
 
 _main_memory = []
-
 COMMAND_REFRENCE = [
     "open",
     "quit",
     "search",
     "help",
-    "memory"
+    "cl",
+    "-m-memory.",
+    "print"
 ]
 def response(text:str, command:str):
-        engine = pyttsx3.init()
+        #engine = pyttsx3.init()
         print(command + " "+ text)
-        engine.say(command +" "+text)
-        engine.runAndWait()
+        #engine.say(command +" "+text)
+        #engine.runAndWait()
 
 def handle_open(input:str):
     response(input, "opening")
@@ -35,7 +36,15 @@ def handle_search(query:str):
 def handle_help():
     print(f"list of commands \n {COMMAND_REFRENCE}")
 
+def handle_memory():
+    for m in _main_memory:
+        print(m)
+        
+def handle_clear():
+    _main_memory.clear()
 
+def handle_print(text:str):
+    print(text)
 #def handle_restart(type:str):
 #    os.system(f" cmd /{type.lower()} C:/Users/Mars/AppData/Local/Programs/Python/Python310/python.exe c:/Users/Mars/OneDrive/Documents/Language/Python/ShellProject/main.py")
 
@@ -54,15 +63,10 @@ def input_fun(command:str) -> list:
                 index_one += 1
                 for _item_command in item:
                     index_two += 1
-                    print(len(_item_command)-1+len(item)-1, " length")
                     if index_two+index_one != len(_item_command)-1+len(item)-1 :
-                        _sleeptimer += 1
-                        print(_sleeptimer)
+                        _sleeptimer += 2
                     else:
                         _sleeptimer = 0
-                    
-                    print(len(item))
-                    print(_item_command)
                     _command  = _item_command.strip()
                     argument, *text =  _command.split()
                     arg = argument
@@ -74,7 +78,6 @@ def input_fun(command:str) -> list:
                                                             
                     # Timing function
                     _main_memory.append(command_object)
-                    print(_main_memory)
                     #print(_main_memory)
                     #return arg, txt
         
@@ -95,20 +98,33 @@ def run_command(list:list):
     for x in list:
         if x["_command_type"] in COMMAND_REFRENCE:
             command = x["_command_type"].lower()
+            print(command)
             text = " ".join(x["_command_text"])
             match command:
                 case "open":
-                    handle_open(text)   
+                    handle_open(text)  
                     list.remove(x)  
                 case "quit":
                     handle_quit()
                 case "search":
                     handle_search(text)
                     list.remove(x)
-                #case "restart":
-                #      handle_restart(text)
+                case "-m-memory.":
+                    handle_memory()
+                    list.remove(x)
+                case "help":
+                    handle_help()
+                    print(list)
+                    list.remove(x)
+                case "cl":
+                    handle_clear()
+                    list.remove(x)
+                case "print":
+                    handle_print(f"-{text}")
+                    list.remove(x)
                 case _:
                     raise NotImplementedError(f"The command {command} dosen't exist")
+                    list.remove(x)
         else:
             command = x["_command_type"]
             list.remove(x)           
@@ -121,6 +137,9 @@ def run():
         try:
            command  = input("input: ")
            input_fun(command)
+           if len(_main_memory) != 0:
+               while len(_main_memory) != 0:
+                   run_command(_main_memory)
         except TypeError:
             print("error")
         except ValueError:
@@ -130,17 +149,11 @@ def run():
         except KeyboardInterrupt:
             print("\n quiting program")
             quit()
+        except IndexError:
+            print('bye')
+            quit()
         finally:
-            if len(_main_memory) > 0:
-                time.sleep(_sleeptimer)
-                try:
-                     run_command(_main_memory)     
-                except IndexError:
-                    print("Bye")
-                    quit()
-                finally:
-                   pass
-
+          pass
 
 if __name__ == "__main__":
     run()
