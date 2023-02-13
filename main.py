@@ -27,6 +27,7 @@ def handle_open(input:str):
     
 
 def handle_quit():
+    print('bye')
     quit()
 
 def handle_search(query:str):
@@ -80,7 +81,26 @@ def input_fun(command:str) -> list:
                     _main_memory.append(command_object)
                     #print(_main_memory)
                     #return arg, txt
-        
+    if "and" in command or "then" in command:
+        if "and" in command:
+            _split_layer_one = command.split("and")
+        else:
+            _split_layer_one = command.split("then")
+            
+
+        for item in _split_layer_one:
+            _sleeptimer = len(_split_layer_one) 
+            _command  = item.strip()
+            argument, *text =  _command.split()
+            arg = argument
+            txt = text
+            command_object = {
+                "_command_type": arg,
+                "_command_text":  txt
+            }
+                                                    
+            # Timing function
+            _main_memory.append(command_object)
     else:
         command  =command.strip()
         argument, *text =  command.split()
@@ -98,7 +118,7 @@ def run_command(list:list):
     for x in list:
         if x["_command_type"] in COMMAND_REFRENCE:
             command = x["_command_type"].lower()
-            print(command)
+
             text = " ".join(x["_command_text"])
             match command:
                 case "open":
@@ -133,9 +153,10 @@ def run_command(list:list):
             
     
 def run():
+    print("Hi my name is sirius, What can i for you \n")
     while True:
         try:
-           command  = input("input: ")
+           command  = input("input:- ")
            input_fun(command)
            if len(_main_memory) != 0:
                while len(_main_memory) != 0:
@@ -150,7 +171,6 @@ def run():
             print("\n quiting program")
             quit()
         except IndexError:
-            print('bye')
             quit()
         finally:
           pass
