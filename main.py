@@ -3,6 +3,11 @@ import os
 import webbrowser
 import time 
 
+settings = {
+    "responseTime": 0,
+    "searchEngine": "http://www.google.com"
+}
+
 _main_memory = []
 COMMAND_REFRENCE = [
     "open",
@@ -11,11 +16,12 @@ COMMAND_REFRENCE = [
     "help",
     "cl",
     "-m-memory.",
-    "print"
+    "print",
+    "settings"
 ]
 def response(text:str, command:str):
         #engine = pyttsx3.init()
-        print(command + " "+ text)
+        print(command + " "+ text) 
         #engine.say(command +" "+text)
         #engine.runAndWait()
 
@@ -32,7 +38,7 @@ def handle_quit():
 
 def handle_search(query:str):
     response(" ", "alright")
-    webbrowser.open(f"https://www.google.com/search?q={query}")  
+    webbrowser.open(f"{settings['searchEngine']}/search?q={query}")  
 
 def handle_help():
     print(f"list of commands \n {COMMAND_REFRENCE}")
@@ -46,13 +52,26 @@ def handle_clear():
 
 def handle_print(text:str):
     print(text)
+
+def handle_settings():
+    _settings_dicitonary_index = 0
+    for items in settings:
+        _settings_dicitonary_index += 1
+        print(f"[{_settings_dicitonary_index}] - {items}")
+    number = int(input("Pick a number -: "))
+    print(f"{list(settings.keys())[number]} : {settings[list(settings.keys())[number]]}")
+    
+    verifictation_input = input("Do you want to change it (Y/n): ")
+    if verifictation_input.lower() is y:
+        new_settings = input("")
+        if settings[list(settings.keys())[number]] 
+             
 #def handle_restart(type:str):
 #    os.system(f" cmd /{type.lower()} C:/Users/Mars/AppData/Local/Programs/Python/Python310/python.exe c:/Users/Mars/OneDrive/Documents/Language/Python/ShellProject/main.py")
 
 def input_fun(command:str) -> list:
     global index_one
     global index_two
-    global _sleeptimer
     index_one = 0
     index_two = 0
     _sleeptimer = 0
@@ -141,6 +160,9 @@ def run_command(list:list):
                     list.remove(x)
                 case "print":
                     handle_print(f"-{text}")
+                    list.remove(x)
+                case "settings":
+                    handle_settings()
                     list.remove(x)
                 case _:
                     raise NotImplementedError(f"The command {command} dosen't exist")
