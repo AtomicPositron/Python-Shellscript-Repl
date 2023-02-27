@@ -1,7 +1,9 @@
 import os
-#import pyttsx3
 import webbrowser
 import time 
+import random
+import string
+import numbers
 
 settings = {
     "responseTime": 0,
@@ -15,9 +17,9 @@ COMMAND_REFRENCE = [
     "search",
     "help",
     "cl",
-    "-m-memory.",
+    "memory.",
     "print",
-    "settings"
+    "r-Password"
 ]
 def response(text:str, command:str):
         #engine = pyttsx3.init()
@@ -53,19 +55,13 @@ def handle_clear():
 def handle_print(text:str):
     print(text)
 
-def handle_settings():
-    _settings_dicitonary_index = 0
-    for items in settings:
-        _settings_dicitonary_index += 1
-        print(f"[{_settings_dicitonary_index}] - {items}")
-    number = int(input("Pick a number -: "))
-    print(f"{list(settings.keys())[number]} : {settings[list(settings.keys())[number]]}")
-    
-    verifictation_input = input("Do you want to change it (Y/n): ")
-    if verifictation_input.lower() is y:
-        new_settings = input("")
-        if settings[list(settings.keys())[number]] 
-             
+def handle_randomPassword():
+    alphabet = list(string.ascii_lowercase)
+    numbers = list(range(0,9))
+    print(alphabet)   
+    print(numbers)   
+
+
 #def handle_restart(type:str):
 #    os.system(f" cmd /{type.lower()} C:/Users/Mars/AppData/Local/Programs/Python/Python310/python.exe c:/Users/Mars/OneDrive/Documents/Language/Python/ShellProject/main.py")
 
@@ -130,10 +126,10 @@ def input_fun(command:str) -> list:
             "_command_text":  txt
         }
         _main_memory.append(command_object)
-        
         return arg, txt
     
 def run_command(list:list):
+    print(list)
     for x in list:
         if x["_command_type"] in COMMAND_REFRENCE:
             command = x["_command_type"].lower()
@@ -148,7 +144,7 @@ def run_command(list:list):
                 case "search":
                     handle_search(text)
                     list.remove(x)
-                case "-m-memory.":
+                case "memory.":
                     handle_memory()
                     list.remove(x)
                 case "help":
@@ -161,8 +157,8 @@ def run_command(list:list):
                 case "print":
                     handle_print(f"-{text}")
                     list.remove(x)
-                case "settings":
-                    handle_settings()
+                case "r-Password":
+                    handle_randomPassword()
                     list.remove(x)
                 case _:
                     raise NotImplementedError(f"The command {command} dosen't exist")
