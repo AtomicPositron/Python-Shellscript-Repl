@@ -2,8 +2,8 @@ import os
 import webbrowser
 import time 
 import random
-import string
-import numbers
+import math
+import string 
 
 settings = {
     "responseTime": 0,
@@ -19,7 +19,8 @@ COMMAND_REFRENCE = [
     "cl",
     "memory.",
     "print",
-    "r-Password"
+    "brownian",
+    "time"
 ]
 def response(text:str, command:str):
         #engine = pyttsx3.init()
@@ -55,15 +56,35 @@ def handle_clear():
 def handle_print(text:str):
     print(text)
 
-def handle_randomPassword():
-    alphabet = list(string.ascii_lowercase)
-    numbers = list(range(0,9))
-    print(alphabet)   
-    print(numbers)   
+def handle_random(type:str, digits:int):
+    if type.lower() == "number":
+       print(math.floor(random.randrange(0,digits))) 
+    if type.lower() == "numbers":
+       count = 10
+       listOfNumbers = []
+       while count > 0:
+           listOfNumbers.append(math.floor(random.randrange(0,digits)))
+           count -= 1           
+       print(listOfNumbers)
+    if type.lower() == "password":
+        print("Generate Password")
+        l = int(input("length: "))
+        characters = [
+            string.punctuation,
+            string.ascii_lowercase,
+            string.digits,
+        ]
+        password= " "
+        print("Creating Password")
+        for i in range(l):
+            password.join(characters[math.floor(random.randrange(0,len(characters)-1))][math.floor(random.randrange(0,len(characters)-1))])
+        
+        print(password)
+       
 
-
-#def handle_restart(type:str):
-#    os.system(f" cmd /{type.lower()} C:/Users/Mars/AppData/Local/Programs/Python/Python310/python.exe c:/Users/Mars/OneDrive/Documents/Language/Python/ShellProject/main.py")
+def handle_time():
+    curr = time.ctime(time.time())
+    print("Current time:", curr)
 
 def input_fun(command:str) -> list:
     global index_one
@@ -71,8 +92,8 @@ def input_fun(command:str) -> list:
     index_one = 0
     index_two = 0
     _sleeptimer = 0
-    if "and" in command or "then" in command:
-        if "and" in command and "then" in command:
+    if " and " in command or " then " in command:
+        if " and " in command and " then " in command:
             _split_layer_one = command.split("and")
             _split_layer_two = [substring.split('then') for substring in _split_layer_one]
             for item in _split_layer_two:
@@ -96,8 +117,8 @@ def input_fun(command:str) -> list:
                     _main_memory.append(command_object)
                     #print(_main_memory)
                     #return arg, txt
-    if "and" in command or "then" in command:
-        if "and" in command:
+    if " and " in command or " then " in command:
+        if " and " in command:
             _split_layer_one = command.split("and")
         else:
             _split_layer_one = command.split("then")
@@ -129,7 +150,6 @@ def input_fun(command:str) -> list:
         return arg, txt
     
 def run_command(list:list):
-    print(list)
     for x in list:
         if x["_command_type"] in COMMAND_REFRENCE:
             command = x["_command_type"].lower()
@@ -157,8 +177,11 @@ def run_command(list:list):
                 case "print":
                     handle_print(f"-{text}")
                     list.remove(x)
-                case "r-Password":
-                    handle_randomPassword()
+                case "brownian":
+                    handle_random(text, 9)
+                    list.remove(x)
+                case "time":
+                    handle_time()
                     list.remove(x)
                 case _:
                     raise NotImplementedError(f"The command {command} dosen't exist")
@@ -180,7 +203,7 @@ def run():
                while len(_main_memory) != 0:
                    run_command(_main_memory)
         except TypeError:
-            print("error")
+            print("error" + str(TypeError))
         except ValueError:
             print("empty string")
         except NotImplementedError:

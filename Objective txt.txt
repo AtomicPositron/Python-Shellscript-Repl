@@ -1,8 +1,7 @@
 new commands idea 
 
-1. Settings accesibility: mainly searchEngines and respondTime
-2. Teather capability
-3. Timer
+1. Teather capability
+2. Timer
 
 Major funtion:
  basic conversation with me or someone else  
